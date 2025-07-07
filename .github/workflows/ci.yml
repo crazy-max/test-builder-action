@@ -38,7 +38,7 @@ jobs:
       id-token: write
     with:
       push: ${{ github.event_name != 'pull_request' }}
-      meta-image: crazy-max/test-builder-action
-      login-username: crazy-max
+      meta-image: crazymax/test-builder-action
+      login-username: crazymax
     secrets:
       login-password: ${{ secrets.DOCKERHUB_TOKEN }}
