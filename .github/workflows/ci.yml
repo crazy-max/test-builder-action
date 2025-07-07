@@ -29,3 +29,16 @@ jobs:
       login-username: ${{ github.actor }}
     secrets:
       login-password: ${{ secrets.GITHUB_TOKEN }}
+
+  build-dockerhub:
+    uses: crazy-max/builder-action/.github/workflows/build.yml@main
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    with:
+      push: ${{ github.event_name != 'pull_request' }}
+      meta-image: crazy-max/test-builder-action
+      login-username: crazy-max
+    secrets:
+      login-password: ${{ secrets.DOCKERHUB_TOKEN }}
