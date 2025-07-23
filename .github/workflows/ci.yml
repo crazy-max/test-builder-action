@@ -43,3 +43,36 @@ jobs:
       login-username: crazymax
     secrets:
       login-password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+  build-ghcr-multi:
+    uses: crazy-max/builder-action/.github/workflows/build.yml@main
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    with:
+      push: ${{ github.event_name != 'pull_request' }}
+      meta-image: ghcr.io/crazy-max/test-builder-action
+      meta-flavor: |
+        suffix=-multi,latest=true
+      login-registry: ghcr.io
+      login-username: ${{ github.actor }}
+      build-platforms: linux/amd64,linux/arm64
+    secrets:
+      login-password: ${{ secrets.GITHUB_TOKEN }}
+
+  build-dockerhub-multi:
+    uses: crazy-max/builder-action/.github/workflows/build.yml@main
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    with:
+      push: ${{ github.event_name != 'pull_request' }}
+      meta-image: crazymax/test-builder-action
+      meta-flavor: |
+        suffix=-multi,latest=true
+      login-username: crazymax
+      build-platforms: linux/amd64,linux/arm64
+    secrets:
+      login-password: ${{ secrets.DOCKERHUB_TOKEN }}
